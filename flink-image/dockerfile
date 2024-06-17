@@ -1,0 +1,11 @@
+FROM cnfldemos/flink-kafka:1.16.0-scala_2.12-java11
+
+# Install python
+RUN set -ex; \
+    apt-get update; \
+    apt-get -y install python3; \
+    apt-get -y install python3-pip; \
+    apt-get -y install python3-dev; \
+    ln -s /usr/bin/python3 /usr/bin/python
+
+RUN pip install --no-cache-dir apache-flink

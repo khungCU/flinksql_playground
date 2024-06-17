@@ -1,0 +1,31 @@
+FROM cnfldemos/flink-sql-client-kafka:1.16.0-scala_2.12-java11
+
+###############################################
+## Download Neccessary Jars to Flink Class Path
+###############################################
+## Iceberg Flink Library
+RUN curl -L https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.16/1.3.1/iceberg-flink-runtime-1.16-1.3.1.jar -o /opt/flink/lib/iceberg-flink-runtime-1.16-1.3.1.jar
+## Hive Flink Library
+RUN curl -L https://repo1.maven.org/maven2/org/apache/flink/flink-sql-connector-hive-2.3.9_2.12/1.16.1/flink-sql-connector-hive-2.3.9_2.12-1.16.1.jar -o /opt/flink/lib/flink-sql-connector-hive-2.3.9_2.12-1.16.1.jar
+## Hadoop Common Classes
+RUN curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.8.3/hadoop-common-2.8.3.jar -o /opt/flink/lib/hadoop-common-2.8.3.jar
+## Hadoop AWS Classes
+RUN curl -L https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-hadoop-2-uber/2.8.3-10.0/flink-shaded-hadoop-2-uber-2.8.3-10.0.jar -o /opt/flink/lib/flink-shaded-hadoop-2-uber-2.8.3-10.0.jar 
+## AWS Bundled Classes
+RUN curl -L https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.20.18/bundle-2.20.18.jar -o /opt/flink/lib/bundle-2.20.18.jar
+## Icberg Nessie Library
+## RUN curl -L https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-nessie/1.3.0/iceberg-nessie-1.3.0.jar -o /opt/flink/lib/iceberg-nessie-1.3.0.jar
+
+## java.lang.ClassNotFoundException: org.apache.flink.avro.shaded.org.apache.avro.generic.GenericData$Array
+## TO DO install flink.avro.shaded ...
+RUN curl -L  https://repo1.maven.org/maven2/org/apache/flink/flink-avro/1.18.1/flink-avro-1.18.1.jar -o /opt/flink/lib/flink-avro-1.18.1.jar
+
+# Install python
+RUN set -ex; \
+    apt-get update; \
+    apt-get -y install python3; \
+    apt-get -y install python3-pip; \
+    apt-get -y install python3-dev; \
+    ln -s /usr/bin/python3 /usr/bin/python
+
+RUN pip install --no-cache-dir apache-flink

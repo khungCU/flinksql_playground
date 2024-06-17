@@ -1,0 +1,1 @@
+$FLINK_HOME/bin/sql-client.sh embedded -l lib/
